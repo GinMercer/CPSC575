@@ -7,14 +7,31 @@
 //
 
 import UIKit
+import Firebase
+import Foundation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate:  NSObject,UIApplicationDelegate {
 
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+        ref.observe(.childAdded, with: { (snapshot) in
+            let value = snapshot.value as? NSDictionary
+            let id = value?["id"] as? String ?? ""
+            let fat = value?["fat"] as? String ?? ""
+            let sugar = value?["sugar"] as? String ?? ""
+            print(value)
+            print(id)
+            print(fat)
+            print(sugar)
+            
+        })
+        
+        
         return true
     }
 
